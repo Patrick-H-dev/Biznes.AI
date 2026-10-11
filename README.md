@@ -15,9 +15,15 @@ Przy pierwszym uruchomieniu kliknij **Wczytaj dane przykładowe**: pojawi się z
 
 ## Publikacja na GitHub Pages
 
-Workflow `.github/workflows/pages.yml` po każdym pushu na `main` uruchamia testy, buduje aplikację i publikuje katalog `dist/` na GitHub Pages (https://patrick-h-dev.github.io/Biznes.AI/). Jednorazowo w repozytorium: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+Adres: https://patrick-h-dev.github.io/Biznes.AI/
 
-Uwaga: strona na GitHub Pages jest publiczna. Dane planów nie trafiają na serwer, bo zostają w przeglądarce użytkownika, ale sama aplikacja jest dostępna dla każdego, kto zna adres.
+Workflow `.github/workflows/pages.yml` po każdym pushu na `main` uruchamia testy, buduje aplikację i publikuje katalog `dist/`. Można go też uruchomić ręcznie w zakładce Actions („Run workflow”).
+
+Jednorazowa konfiguracja w repozytorium: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Przy ustawieniu „Deploy from a branch” GitHub pokazuje plik README zamiast aplikacji.
+
+Wersja na Pages jest budowana z `VITE_SEED_DEMO=1`, więc przy pierwszej wizycie użytkownik widzi dane przykładowe. Usuwa je przycisk Ustawienia → Wyczyść wszystkie dane.
+
+Strona na GitHub Pages jest publiczna. Dane planów nie trafiają na serwer, bo zostają w przeglądarce użytkownika, ale samą aplikację może otworzyć każdy, kto zna adres.
 
 ## Co jest zaimplementowane
 
