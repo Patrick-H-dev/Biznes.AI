@@ -7,6 +7,8 @@ export default defineConfig({
   base: './',
   // exceljs i jsPDF są ładowane leniwie, dopiero przy imporcie/eksporcie
   build: { chunkSizeWarningLimit: 1000 },
+  // Znaki spoza ASCII w kodzie bibliotek zapisujemy jako sekwencje \u… (bezpieczne przy każdym serwowaniu)
+  esbuild: { charset: 'ascii' },
   test: {
     environment: 'node',
   },

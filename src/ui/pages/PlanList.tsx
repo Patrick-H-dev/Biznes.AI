@@ -9,6 +9,7 @@ import { Modal } from '../components/Modal';
 import { NumberInput } from '../components/NumberInput';
 import { PlanFormModal, StatusPill } from '../components/PlanParts';
 import { href, navigate } from '../router';
+import { confirmDialog } from '../confirm';
 import { attempt, toast } from '../toast';
 
 export function PlanList() {
@@ -113,9 +114,9 @@ export function PlanList() {
                           <button
                             className="btn-sm btn-ghost btn-danger"
                             onClick={() => {
-                              if (confirm(`Usunąć szkic „${p.name}” (v${p.version})? Tej operacji nie można cofnąć.`)) {
-                                attempt(() => deletePlan(p.id));
-                              }
+                              confirmDialog(`Usunąć szkic „${p.name}” (v${p.version})? Tej operacji nie można cofnąć.`, { confirmLabel: 'Usuń szkic', danger: true }).then(
+                                (ok) => ok && attempt(() => deletePlan(p.id)),
+                              );
                             }}
                           >
                             Usuń

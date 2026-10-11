@@ -5,6 +5,7 @@ import { CURRENCIES, type AppData, type Category, type CategoryType, type Curren
 import { addCategory, categoryUsage, deleteCategory, getState, replaceAllData, resetData, updateCategory, updateSettings, useStore } from '../../store/store';
 import { NumberInput } from '../components/NumberInput';
 import { downloadBlob } from '../download';
+import { confirmDialog } from '../confirm';
 import { attempt, toast, toastError } from '../toast';
 
 export function SettingsPage() {
@@ -75,7 +76,11 @@ export function SettingsPage() {
             className="btn-sm btn-ghost btn-danger"
             disabled={used > 0}
             title={used > 0 ? 'Kategoria jest używana w planach – możesz ją dezaktywować' : undefined}
-            onClick={() => confirm(`Usunąć kategorię „${c.name}”${child ? '' : ' wraz z podkategoriami'}?`) && attempt(() => deleteCategory(c.id))}
+            onClick={() =>
+              confirmDialog(`Usunąć kategorię „${c.name}”${child ? '' : ' wraz z podkategoriami'}?`, { confirmLabel: 'Usuń', danger: true }).then(
+                (ok) => ok && attempt(() => deleteCategory(c.id)),
+              )
+            }
           >
             Usuń
           </button>
@@ -203,7 +208,7 @@ export function SettingsPage() {
                 if (!f) return;
                 try {
                   const parsed = JSON.parse(await f.text()) as AppData;
-                  if (!confirm('Przywrócenie zastąpi wszystkie obecne dane. Kontynuować?')) return;
+                  if (!(await confirmDialog('Przywrócenie zastąpi wszystkie obecne dane.', { confirmLabel: 'Przywróć', danger: true }))) return;
                   replaceAllData(parsed);
                   toast('Przywrócono dane z kopii zapasowej.');
                 } catch (err) {
@@ -213,8 +218,8 @@ export function SettingsPage() {
             />
           </label>
           <button
-            onClick={() => {
-              if (confirm('Wczytać dane przykładowe? Obecne dane zostaną zastąpione.')) {
+            onClick={async () => {
+              if (await confirmDialog('Wczytać dane przykładowe? Obecne dane zostaną zastąpione.', { confirmLabel: 'Wczytaj', danger: true })) {
                 resetData(demoData());
                 toast('Wczytano dane przykładowe.');
               }
@@ -224,8 +229,8 @@ export function SettingsPage() {
           </button>
           <button
             className="btn-danger"
-            onClick={() => {
-              if (confirm('Usunąć wszystkie plany i przywrócić słownik startowy? Tej operacji nie można cofnąć.')) {
+            onClick={async () => {
+              if (await confirmDialog('Usunąć wszystkie plany i przywrócić słownik startowy? Tej operacji nie można cofnąć.', { confirmLabel: 'Wyczyść dane', danger: true })) {
                 resetData();
                 toast('Wyczyszczono dane.');
               }

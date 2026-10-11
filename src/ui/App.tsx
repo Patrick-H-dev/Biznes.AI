@@ -5,6 +5,7 @@ import { PlanEditor } from './pages/PlanEditor';
 import { PlanList } from './pages/PlanList';
 import { SettingsPage } from './pages/Settings';
 import { href, useRoute } from './router';
+import { ConfirmHost } from './confirm';
 import { ToastHost } from './toast';
 
 export function App() {
@@ -65,6 +66,7 @@ export function App() {
         )}
       </main>
       <ToastHost />
+      <ConfirmHost />
     </div>
   );
 }

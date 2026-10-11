@@ -5,6 +5,7 @@
 import { useSyncExternalStore } from 'react';
 import { calculatePlan } from '../domain/calc';
 import { emptyData } from '../domain/defaults';
+import { demoData } from '../domain/demo';
 import { dec } from '../domain/numbers';
 import { copyPlanToYear, createLine, createPlan, newVersion, uid, validatePlanInput, type PlanInput } from '../domain/planOps';
 import type { AppData, AuditEntry, BudgetLine, BudgetPlan, Category, Settings } from '../domain/types';
@@ -21,7 +22,8 @@ function load(): AppData {
   } catch {
     // uszkodzone dane lub brak dostępu do localStorage – startujemy od pustego stanu
   }
-  return emptyData();
+  // Build demonstracyjny (VITE_SEED_DEMO=1) startuje od danych przykładowych zamiast pustej listy.
+  return import.meta.env?.VITE_SEED_DEMO === '1' ? demoData() : emptyData();
 }
 
 let state: AppData = load();

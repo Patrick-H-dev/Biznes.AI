@@ -23,6 +23,7 @@ import { NumberInput } from '../components/NumberInput';
 import { PlanFormModal, StatusPill, SummaryBar, TypePill, WarningsList } from '../components/PlanParts';
 import { XLSX_MIME, downloadBlob, slug } from '../download';
 import { href, navigate } from '../router';
+import { confirmDialog } from '../confirm';
 import { attempt, toast, toastError } from '../toast';
 
 type SortKey = 'order' | 'name' | 'cost' | 'revenue' | 'romi' | 'roas';
@@ -274,7 +275,7 @@ export function PlanEditor({ plan }: { plan: BudgetPlan }) {
                           }
                           onAddSub={() => setModal({ sub: row.categoryId })}
                           onRemove={() => {
-                            if (confirm(`Usunąć „${row.name}” razem z podkategoriami z planu?`)) attempt(() => removeCategoryFromPlan(plan.id, row.categoryId));
+                            confirmDialog(`Usunąć „${row.name}” razem z podkategoriami z planu?`, { confirmLabel: 'Usuń', danger: true }).then((ok) => ok && attempt(() => removeCategoryFromPlan(plan.id, row.categoryId)));
                           }}
                         />
                       ) : null}
@@ -630,7 +631,8 @@ function LineRow({
             className="btn-sm btn-ghost btn-danger"
             aria-label={`Usuń ${row.name} z planu`}
             onClick={() => {
-              if (row.cost.isZero() || confirm(`Usunąć „${row.name}” z planu?`)) attempt(() => removeLine(plan.id, line.id));
+              if (row.cost.isZero()) attempt(() => removeLine(plan.id, line.id));
+              else confirmDialog(`Usunąć „${row.name}” z planu?`, { confirmLabel: 'Usuń', danger: true }).then((ok) => ok && attempt(() => removeLine(plan.id, line.id)));
             }}
           >
             ✕
