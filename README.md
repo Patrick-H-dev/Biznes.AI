@@ -13,6 +13,12 @@ npm run build      # kontrola typów + build produkcyjny do dist/
 
 Przy pierwszym uruchomieniu kliknij **Wczytaj dane przykładowe**: pojawi się zatwierdzony plan na bieżący rok i szkic na kolejny.
 
+## Publikacja na GitHub Pages
+
+Workflow `.github/workflows/pages.yml` po każdym pushu na `main` uruchamia testy, buduje aplikację i publikuje katalog `dist/` na GitHub Pages (https://patrick-h-dev.github.io/Biznes.AI/). Jednorazowo w repozytorium: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+Uwaga: strona na GitHub Pages jest publiczna. Dane planów nie trafiają na serwer, bo zostają w przeglądarce użytkownika, ale sama aplikacja jest dostępna dla każdego, kto zna adres.
+
 ## Co jest zaimplementowane
 
 | Obszar | Wymagania PRD | Gdzie |
